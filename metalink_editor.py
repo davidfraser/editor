@@ -721,7 +721,14 @@ class MainFrame(wx.Frame):
         self.SetStatusText("Saved file as " + outfilename)
 
     def onMenuOpen(self, evt):
-        filename = wx.FileSelector("Choose metalink file to load", "", "", ".metalink", "All files (*.*)|*.*|Metalink files (*.metalink)|*.metalink|Metalink4 files (*.meta4)|*.meta4", wx.OPEN)
+        config = wx.ConfigBase.Get()
+        config.SetPath("/Scanning")
+        use_meta4 = config.ReadBool("use_meta4_default", use_meta4_default)
+
+        default_type = ".metalink"
+        if use_meta4:
+            default_type = ".meta4"
+        filename = wx.FileSelector("Choose metalink file to load", "", "", default_type, "All files (*.*)|*.*|Metalink files (*.metalink)|*.metalink|Metalink4 files (*.meta4)|*.meta4", wx.OPEN)
         if filename != "":
             try:
                 self.ml = metalink.parsefile(filename)
