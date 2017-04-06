@@ -729,6 +729,9 @@ class MainFrame(wx.Frame):
         if use_meta4:
             default_type = ".meta4"
         filename = wx.FileSelector("Choose metalink file to load", "", "", default_type, "All files (*.*)|*.*|Metalink files (*.metalink)|*.metalink|Metalink4 files (*.meta4)|*.meta4", wx.OPEN)
+        self.openFile(filename)
+
+    def openFile(self, filename):
         if filename != "":
             try:
                 self.ml = metalink.parsefile(filename)
@@ -844,4 +847,6 @@ class MainApp(wx.App):
 
 if __name__ == '__main__':
     app = MainApp(0)
+    if len(sys.argv) > 1:
+        app.frame.openFile(sys.argv[1])
     app.MainLoop()
